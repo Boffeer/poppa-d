@@ -104,6 +104,34 @@ html {
   font-weight: 600;
   font-size: 40px;
 }
+.poppa__closer::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	display: block;
+	width: 30px;
+	height: 3px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #fff;
+	transform: rotate(45deg);
+	transform-origin: center;
+}
+.poppa__closer::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	display: block;
+	width: 30px;
+	height: 3px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #fff;
+	transform: rotate(-45deg);
+	transform-origin: center;
+}
 
 .poppa__closer:hover {
   color: var(--c-poppa-close);

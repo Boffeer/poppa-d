@@ -13,6 +13,7 @@ function Poppa() {
     getButtons: () => {
       return document.querySelectorAll('.poppa__button');
     },
+		openedPops: [],
   };
 
   (function createPopupsOverlay() {
@@ -25,6 +26,10 @@ function Poppa() {
     const closer = document.createElement('button');
     closer;
     closer.classList.add('poppa__closer');
+    document.querySelector(`.${poppaClassList.overlay}`).appendChild(closer);
+		closer.addEventListener('click', function() {
+			closePop(data.openedPops.at(-1));
+		})
 
     const aligner = document.createElement('div');
     aligner;
@@ -40,19 +45,50 @@ function Poppa() {
     });
   })();
 
+	function checkPopType($popup) {
+    let popup = null;
+		if (typeof($popup) == 'object') popup = $popup;
+		if (typeof($popup) == 'string') popup = document.querySelector($popup);
+		if (!popup) {
+			console.error('Incorrect type of $popup in openPop() or closePop()');
+			return;
+		}
+		return popup;
+	}
+
+	function openPop($popup) {
+		const popup = checkPopType($popup);
+		if (popup && !popup.classList.contains(poppaClassList.opened)) {
+			popup.classList.add(poppaClassList.opened);
+			document.querySelector(`.${poppaClassList.overlay}`).classList.add(poppaClassList.opened);
+		}
+		data.openedPops.push(popup)
+		const openEvent = new Event('poppa-open');
+		popup.dispatchEvent(openEvent);
+	}
+	data.openPop = openPop;
+
+	function closePop($popup) {
+		const popup = checkPopType($popup);
+		if (popup && popup.classList.contains(poppaClassList.opened)) {
+			popup.classList.remove(poppaClassList.opened);
+			document.querySelector(`.${poppaClassList.overlay}`).classList.remove(poppaClassList.opened);
+		}
+		data.openedPops.pop();
+		const closeEvent = new Event('poppa-close');
+		$popup.dispatchEvent(closeEvent);
+	}
+	data.closePop = closePop;
+
 
   data.getButtons().forEach(button => {
     const popupId = button.getAttribute('href');
-    const popup = document.querySelector(popupId);
-
-    button.addEventListener('click', function() {
-      if (!popup.classList.contains(poppaClassList.opened)) {
-        popup.classList.add(poppaClassList.opened);
-        document.querySelector(`.${poppaClassList.overlay}`).classList.add(poppaClassList.opened);
-      }
+		if (!popupId) console.error(button, 'has no href on pop');
+    button.addEventListener('click', function(event) {
+			if (!popupId.includes('#')) event.preventDefault()
+			openPop(popupId)
     })
   })
-
 
   return data;
 }
