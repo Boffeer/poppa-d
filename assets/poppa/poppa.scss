@@ -1,5 +1,5 @@
 html {
-  --c-poppa-close: #FF3B30;
+  --c-poppa-close: #ff3b30;
   --transition-delay-base: 0.2s;
   --z-pop: 100000;
 }
@@ -16,7 +16,7 @@ html {
 @media (min-width: 1400px) and (max-width: 1500px) {
   .poppa-block-scrolling {
     // margin-right: 15px;
-	padding-right: 0;
+    padding-right: 0;
   }
 }
 
@@ -29,8 +29,8 @@ html {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.85);
   transition: all var(--transition-delay-base);
   opacity: 0;
@@ -38,113 +38,112 @@ html {
 }
 
 .poppa__popup {
-	display: none;
+  display: none;
 }
 
 .poppa__popup.poppa__opened {
-	display: block;
+  display: block;
 }
 .poppa__opened {
   visibility: visible;
   opacity: 1;
-	overflow: hidden;
+  box-sizing: border-box;
 }
 
-
 .poppa__aligner {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-	justify-content: center;
-	align-items: center;
+  justify-content: center;
+  align-items: center;
   margin: 0 auto;
   width: 100%;
   height: 100%;
   padding: 5px;
 
-	position: absolute;
-	left: -10px;
-	top: 10px;
-	z-index: 1;
-	overflow-y: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+.poppa__aligner--scrollable {
+  display: block;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .poppa__aligner--left {
-	justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 .poppa__aligner--right {
-	justify-content: flex-end;
+  justify-content: flex-end;
 }
 
 .poppa__aligner--top {
-	align-items: flex-start;
+  align-items: flex-start;
 }
 
 .poppa__aligner--bottom {
-	align-items: flex-end;
+  align-items: flex-end;
 }
 
 .poppa__closer {
   font-family: sans-serif;
   border: none;
-  border-radius: 0;
   line-height: 1;
-  font-weight: 500;
-  font-size: 28px;
-  /* background: rgba(255,255,255, 0.3) */
-  background: none;
   color: #fff;
   position: absolute;
   cursor: pointer;
-  display: -ms-grid;
   display: grid;
-	justify-content: center;
-	align-items: center;
+  justify-content: center;
+  align-items: center;
   background: #404040;
   border-radius: 4px;
   transition: all var(--transition-delay-base);
   width: 50px;
   height: 50px;
   top: 20px;
-  right: 30px;
+  right: 20px;
   font-weight: 600;
   font-size: 40px;
-	z-index: 2;
+  z-index: 2;
 }
 .poppa__closer::before {
-	content: "";
-	position: absolute;
-	left: 0;
-	right: 0;
-	display: block;
-	width: 30px;
-	height: 3px;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: #fff;
-	transform: rotate(45deg);
-	transform-origin: center;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  width: 30px;
+  height: 3px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  transform: rotate(45deg);
+  transform-origin: center;
 }
 .poppa__closer::after {
-	content: "";
-	position: absolute;
-	left: 0;
-	right: 0;
-	display: block;
-	width: 30px;
-	height: 3px;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: #fff;
-	transform: rotate(-45deg);
-	transform-origin: center;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  width: 30px;
+  height: 3px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  transform: rotate(-45deg);
+  transform-origin: center;
 }
 
 .poppa__closer:hover {
-  color: var(--c-poppa-close);
-  -webkit-transition: all var(--transition-delay-base);
-  transition: all var(--transition-delay-base);
+  &::after,
+  &::before {
+    background-color: var(--c-poppa-close);
+    transition: all var(--transition-delay-base);
+  }
 }
 
 .poppa__closer--outer {
@@ -171,7 +170,7 @@ html {
 .poppa__popup--zoom-in {
   transition: all 0.3s;
   -webkit-transform: scale(0.2);
-          transform: scale(0.2);
+  transform: scale(0.2);
 }
 
 // .poppa--zoom-in.poppa--opened {
