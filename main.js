@@ -35,6 +35,21 @@ function Poppa() {
       closePop(popup);
     });
 
+    // Close on ESC
+    document.addEventListener("keyup", function (evt) {
+      if (evt.keyCode === 27) {
+        closePop(popup);
+      }
+    });
+
+    // Close by outsideclick
+    overlay.addEventListener("click", function (event) {
+      /* Normally - event.tagert.class[0] on click outside the pop === 'pop-aligner' */
+      if (event.target.classList[0] === poppaClassList.aligner) {
+        closePop(popup);
+      }
+    });
+
     aligner.appendChild(popup);
     overlay.appendChild(aligner);
   }
@@ -86,7 +101,7 @@ function Poppa() {
       popup.classList.add(poppaClassList.opened);
       popup.parentElement.parentElement.classList.add(poppaClassList.opened);
       popup.parentElement.parentElement.classList.add(poppaClassList.opened);
-      console.log(popup.parentElement.parentElement);
+      // console.log(popup.parentElement.parentElement);
     }
     const openEvent = new Event("poppa-open");
     popup.dispatchEvent(openEvent);
@@ -96,7 +111,7 @@ function Poppa() {
 
   function closePop($popup) {
     const popup = checkPopType($popup);
-    console.log(popup);
+    // console.log(popup);
     if (popup && popup.classList.contains(poppaClassList.opened)) {
       popup.classList.remove(poppaClassList.opened);
       popup.parentElement.parentElement.classList.remove(poppaClassList.opened);
@@ -105,6 +120,14 @@ function Poppa() {
     $popup.dispatchEvent(closeEvent);
   }
   data.closePop = closePop;
+
+  function closeAllPops() {
+    const allPops = document.querySelectorAll(".poppa__popup");
+    allPops.forEach((popup) => {
+      closePop(popup);
+    });
+  }
+  data.closeAllPops = closeAllPops;
 
   function fixScrollablePopups(popup) {
     const pageHeight = window.innerHeight;
@@ -121,7 +144,7 @@ function Poppa() {
       popup.parentElement.classList.remove(poppaClassList.alignerScrollable);
     }
 
-    console.log(pageHeight, popupHeight);
+    // console.log(pageHeight, popupHeight);
   }
 
   // Adds a click trigger open pop to all .poppa__button
@@ -135,6 +158,12 @@ function Poppa() {
       openPop(popupId);
     });
   });
+
+  if (window.location.hash != "") {
+    if (document.querySelector(window.location.hash)) {
+      openPop(window.location.hash);
+    }
+  }
 
   return data;
 }
